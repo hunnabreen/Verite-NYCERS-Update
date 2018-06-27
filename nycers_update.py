@@ -12,17 +12,32 @@ def main():
     line = document.readlines
     print(line)
     
+    #add every paragraph to a map, 
+    #key = paragraph number 
+    #value = every run in paragraph
+    
+    para = {} # key
+    #map<p, list of r>
+    for p in document.paragraphs:
+        #add paragraph no. to key
+        vals = []
+        para[p] = vals
+        for r in p.runs:
+            #add runs to values list
+            vals.append(r)
+            
+            
+
+
 
     """
         parses the document to update highlights
-
         red => purple
         green => blue
         purple => delete
         blue => unhighlight
-
     """
-'''
+
     def textUpdate(filename):
         doc = docx.Document(filename)
         for chars in doc.paragraphs:
@@ -36,11 +51,10 @@ def main():
                     highlight = delete #delete
                 else:
                     highlight = None
-
     #driver
     textUpdate(document)
     #remove .docx file extension and save as UPDATED.docx
     file = os.path.splitext(file)[0] + '-UPDATE.docx'
     document.save(file)
-'''
+
 main()
