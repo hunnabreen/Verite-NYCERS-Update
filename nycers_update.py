@@ -25,7 +25,9 @@ def main():
         for r in p.runs:
             #add runs to values list
             vals.append(r)
-            
+            if next(r) == None:
+                break
+
             
 
 
