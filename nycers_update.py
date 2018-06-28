@@ -3,6 +3,7 @@ from docx import *
 #import os for splitting file types
 import os
 
+
 def main():
     #init original document
     file = test.docx #input("Enter file here: ")
@@ -14,23 +15,22 @@ def main():
     
     #add every paragraph to a map, 
     #key = paragraph number 
-    #value = every run in paragraph
-    
-    para = {} # key
-    #map<p, list of r>
-    for p in document.paragraphs:
-        #add paragraph no. to key
-        vals = []
-        para[p] = vals
-        for r in p.runs:
-            #add runs to values list
-            vals.append(r)
-            if next(r) == None:
-                break
-
-            
-
-
+    #value = every run in paragraph as nested key, style for run as nested value
+    #maybe have a nested map? Map<para, map<runs,style>>
+   
+    para = {} # paragraph key
+    def runLoader(document):
+        
+        for p in document.paragraphs:
+            #add paragraph no. to key
+            vals = {} #nested key
+            para[p] = vals
+            for r in p.runs:
+                #add runs & styles to vals mapper
+                vals[r] = r.style
+                if next(r) == None:
+                    break
+        return
 
     """
         parses the document to update highlights
@@ -39,9 +39,9 @@ def main():
         purple => delete
         blue => unhighlight
     """
-
-    def textUpdate(filename):
-        doc = docx.Document(filename)
+    #edit so it can access key-value pairs in para map rather than just the doc
+    def textUpdate(document):
+        doc = document
         for chars in doc.paragraphs:
             for run in chars.runs:
                 highlight = chars.text.highlight_color
@@ -53,10 +53,21 @@ def main():
                     highlight = delete #delete
                 else:
                     highlight = None
+    
+    #assemble the updated docx back together
+    def assemble(para):
+        #take in para and assemble it back together on new document
+        return
+
     #driver
-    textUpdate(document)
-    #remove .docx file extension and save as UPDATED.docx
-    file = os.path.splitext(file)[0] + '-UPDATE.docx'
-    document.save(file)
+    def driver(document):
+        runLoader(document)
+        textUpdate(document)
+        assemble(document)
+        #remove .docx file extension and save as UPDATED.docx
+        file = os.path.splitext(file)[0] + '-UPDATE.docx'
+        document.save(file)
+    
+    driver(document)    
 
 main()
