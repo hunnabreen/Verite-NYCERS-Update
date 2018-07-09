@@ -1,5 +1,6 @@
 #import docx
 from docx import *
+from docx.enum.text import WD_COLOR_INDEX
 #import os for splitting file types
 import os
 
@@ -8,11 +9,11 @@ def main():
     #init original document
     file = input("Enter file here: ")
     document = Document(file)
-
+    """
     open(document)
     line = document.readlines
     print(line)
-    
+        
     #add every paragraph to a map, 
     #key = paragraph number 
     #value = every run in paragraph as nested key, style for run as nested value
@@ -31,7 +32,7 @@ def main():
                     break
         return
 
-    """
+    
         parses the document to update highlights
         red => purple
         green => blue
@@ -43,7 +44,7 @@ def main():
         doc = document
         for chars in doc.paragraphs:
             for run in chars.runs:
-                highlight = chars.text.highlight_color
+                highlight = run.font.highlight_color
                 if highlight == WD_COLOR_INDEX.RED:
                     highlight = WD_COLOR_INDEX.VIOLET
                 elif highlight == WD_COLOR_INDEX.GREEN:
@@ -60,12 +61,13 @@ def main():
 
     #driver
     def driver(document):
-        runLoader(document)
+        #runLoader(document)
         textUpdate(document)
-        assemble(document)
+        #assemble(document)
         #remove .docx file extension and save as UPDATED.docx
-        file = os.path.splitext(file)[0] + '-UPDATE.docx'
-        document.save(file)
+        #file = os.path.splitext(file)[0] + '-UPDATE.docx'
+        document.save(file + '-UPDATE.docx')
+        print("document updated")
     
     driver(document)    
 
