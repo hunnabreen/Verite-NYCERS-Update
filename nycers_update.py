@@ -6,8 +6,8 @@ import os
 
 def main():
     #init original document
-    file = test.docx #input("Enter file here: ")
-    document = docx.Document(file)
+    file = input("Enter file here: ")
+    document = Document(file)
 
     open(document)
     line = document.readlines
@@ -20,7 +20,6 @@ def main():
    
     para = {} # paragraph key
     def runLoader(document):
-        
         for p in document.paragraphs:
             #add paragraph no. to key
             vals = {} #nested key
