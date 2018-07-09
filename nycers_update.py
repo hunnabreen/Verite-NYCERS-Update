@@ -6,6 +6,7 @@ import os
 
 
 def main():
+    print("Before starting, ensure that all documents that need updating are in the same folder as this program")
     #init original document
     file = input("Enter file here: ")
     document = Document(file)
@@ -45,14 +46,21 @@ def main():
         for chars in doc.paragraphs:
             for run in chars.runs:
                 highlight = run.font.highlight_color
-                if highlight == WD_COLOR_INDEX.RED:
-                    highlight = WD_COLOR_INDEX.VIOLET
-                elif highlight == WD_COLOR_INDEX.GREEN:
-                    highlight = WD_COLOR_INDEX.BLUE
-                elif highlight == WD_COLOR_INDEX.VIOLET:
-                    highlight = delete #delete
+                if run.font.highlight_color == WD_COLOR_INDEX.RED:
+                    run.font.highlight_color = WD_COLOR_INDEX.PINK
+                    
+                elif run.font.highlight_color == WD_COLOR_INDEX.BRIGHT_GREEN:
+                    run.font.highlight_color = WD_COLOR_INDEX.TURQUOISE
+                    
+                elif run.font.highlight_color == WD_COLOR_INDEX.PINK:
+                    run.clear() #delete
+                    
+                elif run.font.highlight_color == WD_COLOR_INDEX.TURQUOISE:
+                    run.font.highlight_color = WD_COLOR_INDEX.WHITE #unhighlight
+                    
                 else:
-                    highlight = None
+                    break
+      
     
     #assemble the updated docx back together
     def assemble(para):
@@ -67,7 +75,7 @@ def main():
         #remove .docx file extension and save as UPDATED.docx
         #file = os.path.splitext(file)[0] + '-UPDATE.docx'
         document.save(file + '-UPDATE.docx')
-        print("document updated")
+        print("document updated, look at the file directory for updated file")
     
     driver(document)    
 
