@@ -60,6 +60,19 @@ def main():
                     
                 else:
                     break
+
+    #updates the bullet points in the word docx
+    def bulletUpdate(document):
+        doc = document
+        for para in doc.paragraphs:
+            sty = para.style
+            if sty == 'List Bullet':
+                if sty.highlight_color == WD_COLOR_INDEX.RED:
+                    sty.highlight_color =  WD_COLOR_INDEX.PINK
+                else:
+                    break
+            else:
+                break
       
     
     #assemble the updated docx back together
@@ -71,6 +84,7 @@ def main():
     def driver(document):
         #runLoader(document)
         textUpdate(document)
+        bulletUpdate(document)
         #assemble(document)
         #remove .docx file extension and save as UPDATED.docx
         #file = os.path.splitext(file)[0] + '-UPDATE.docx'
